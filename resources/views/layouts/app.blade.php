@@ -49,6 +49,12 @@
                                 </li>
                             @endif
                         @else
+                            <li>
+                                <a class="nav-link" href="{{ route('admin.posts.index') }}">Elenco Post</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{{ route('admin.posts.create') }}">Nuovo Post</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -65,7 +71,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
+                            </>
                         @endguest
                     </ul>
                 </div>

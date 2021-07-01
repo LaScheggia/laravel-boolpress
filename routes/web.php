@@ -23,6 +23,7 @@ Route::prefix('admin') //TUTTE LE ROTTE ADMIN
 		->name('admin.')
 		->group(function(){
 			Route::get('/', 'HomeController@index')->name('home');
+            Route::resource('/posts', 'PostController');
 		});
 
 
