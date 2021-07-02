@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -36,10 +37,28 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        /*  $data = $request->all();
+            $data['slug'] = Str::slug($data['title'], '-');
+            $new_post = new Post;
+            $new_post->fill($data);
+            $new_post->save();
+            return redirect()->route('admin.posts.show', $new_post); */
+
         $data = $request->all();
-        $data['slug'] = Str::slug($data['title'], '-');
+        $data['slug'] = Str::slug($data['title'], '-'); //completare e verificare//
+
+        $slug_exist = Post::where('slug', $data['slug'])->first();
+        $counter= 0;
+        while($slug_exist){
+            $title = $data['title'] . '-' . $counter;
+            $slug = Str::slug($title, '-');
+            $data['slug'] = $slug;
+            $slug_exist = Post::where('slug', $data['slug'])->first();
+            $counter++;
+        }
+
         $new_post = new Post;
         $new_post->fill($data);
         $new_post->save();
@@ -84,13 +103,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         $data = $request->all();
-        $data['slug'] = Str::slug($post->title, '-');
-        $post->update($data);
 
-        return redirect()->route('admin.posts.show', $post);
+        if($post->title !== $data['title']){
+
+            $slug = Str::slug($data['title'], '-');
+            $slug_exist = Post::where('slug',$slug)->first();
+            $counter = 0;
+            while($slug_exist){
+                $title = $data['title'] . '-' . $counter;
+                $slug = Str::slug($title, '-');
+                $data['slug']  = $slug;
+                $slug_exist = Post::where('slug',$slug)->first();
+                $counter++;
+            }
+
+        }else{
+            $data['slug'] = $post->slug;
+        }
+
+        $post->update($data);
+        return redirect()->route('admin.posts.show',$post);
     }
 
     /**
@@ -102,6 +137,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return redirect()->route('admin.posts.index')->with('deleted',$post->title);
+        return redirect()->route('admin.posts.index')->with('deleted', $post->title);
     }
 }
