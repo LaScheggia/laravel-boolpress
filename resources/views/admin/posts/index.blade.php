@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Title</th>
                 <th>Category</th>
+                <th>Tags</th>
                 <th>Show</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -31,6 +32,13 @@
                         @else
                             -
                         @endif
+                    </td>
+                    <td> {{-- tags --}}
+                        @forelse ($post->tags as $tag)
+                            <span class="badge badge-primary">{{ $tag->name }}</span>
+                        @empty
+                            -
+                        @endforelse
                     </td>
                     <td> {{-- show --}}
                         <a class="btn btn-primary" href="{{ route('admin.posts.show', $post) }}">SHOW</a>

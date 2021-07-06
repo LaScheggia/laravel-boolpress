@@ -10,5 +10,5 @@ class Tag extends Model
         return $this->belongsToMany('App\Post');
     }
 
-    //protected $primaryKey = 'tags_id';
+
 }
