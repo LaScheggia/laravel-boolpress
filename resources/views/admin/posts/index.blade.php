@@ -25,20 +25,20 @@
                 <tr>
                     <td>{{ $post->id }}</td>
                     <td>{{ $post->title }}</td>
-                    <td>
+                    <td> {{-- category --}}
                         @if ($post->category)
                             {{ $post->category->name }}
                         @else
                             -
                         @endif
                     </td>
-                    <td>
+                    <td> {{-- show --}}
                         <a class="btn btn-primary" href="{{ route('admin.posts.show', $post) }}">SHOW</a>
                     </td>
-                    <td>
+                    <td> {{-- edit --}}
                         <a class="btn btn-info" href="{{ route('admin.posts.edit', $post) }}">EDIT</a>
                     </td>
-                    <td>
+                    <td> {{-- form x delete --}}
                         <form action="{{ route('admin.posts.destroy',$post) }}" method="POST" >
                             @csrf
                             @method('DELETE')

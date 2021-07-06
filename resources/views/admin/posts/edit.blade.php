@@ -18,7 +18,7 @@
             @csrf
             @method('PATCH')
 
-            <div class="mb-3">
+            <div class="mb-3"> {{-- title --}}
                 <label class="label-control" for="title">Titolo</label>
                 <input type="text" id="title" name="title" value="{{ old('title', $post->title) }}" class="form-control @error('title') is-invalid @enderror">
                 @error('title')
@@ -26,7 +26,7 @@
                 @enderror
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3"> {{-- content --}}
                 <label class="label-control" for="content">Content</label>
                 <textarea type="text" id="content" name="content" class="form-control @error('content') is-invalid @enderror" rows="5" >{{ old('content',$post->content) }}</textarea>
                 @error('content')
@@ -35,7 +35,7 @@
             </div>
 
 
-            <div class="mb-3">
+            <div class="mb-3"> {{-- category --}}
                 <label class="label-control" for="category_id">Category</label>
                 <select class="form-control @error('category_id') is-invalid @enderror"
                 name="category_id" id="category_id">
@@ -47,6 +47,29 @@
                     @endforeach
                 </select>
                 @error('category_id')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-3"> {{-- tags --}}
+                <h5>Tag</h5>
+                @foreach($tags as $tag)
+                    <span class="d-inline-block mr-3">
+                        <input type="checkbox"
+                            id="tag{{ $loop->iteration }}"
+                            name="tags[]"
+                            value="{{ $tag->id }}"
+
+                            @if ($errors->any() && in_array($tag->id, old('tags',[])))
+                                checked
+                            @elseif (!$errors->any() && $post->tags->contains($tag->id))
+                                checked
+                            @endif
+                        >
+                        <label for="tag{{ $loop->iteration }}">{{ $tag->name }}</label>
+                    </span>
+                @endforeach
+                @error('tags')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>

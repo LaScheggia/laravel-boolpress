@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PostsTableSeeder::class,
             CategoryTableSeeder::class, //questo dovrebbe essere plurale ma io sono infame e ho sbagliato
-            UpdatePostsSeeder::class
+            UpdatePostsSeeder::class,
+            TagsTableSeeder::class,
         ]);
     }
 }
