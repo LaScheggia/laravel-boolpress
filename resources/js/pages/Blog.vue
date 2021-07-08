@@ -1,13 +1,30 @@
 <template>
   <div>
-      <h1>Blog</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae iste veniam id ea cum, sed sapiente adipisci ad iusto totam delectus dolore porro neque similique, voluptatem esse, magnam non suscipit.</p>
+      <h1>My Posts</h1>
+
   </div>
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
-    name: 'About'
+    name: 'Blog',
+    data(){
+        return{
+            posts: [],
+            pagination: {},
+            loaded: false
+        }
+    },
+    methods: {
+        getPosts(){
+
+        }
+
+    }
+
 }
 </script>
 

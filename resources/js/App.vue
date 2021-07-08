@@ -1,7 +1,7 @@
 <template>
     <main class="container">
-        <header />
 
+        <Header />
 
         <!-- questo è un tag Vue che riceve tutti i componenti iniettati dal router -->
         <router-view></router-view>
@@ -11,13 +11,16 @@
 </template>
 
 <script>
+
 import Header from './components/Header.vue'
+
 
 
 export default {
     name: 'App',
     components: {
-        Header
+        Header,
+
 
     }
 }
