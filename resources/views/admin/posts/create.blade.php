@@ -3,42 +3,48 @@
 @section('content')
 <div class="container">
     <h1>Nuovo post</h1>
+
+    {{-- verifico l'esistenza di errori --}}
     @if ($errors->any())
         <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
             <ul>
-                <li>{{$error}}</li>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
             </ul>
-            @endforeach
         </div>
     @endif
 
     <div>
-        <form action="{{ route('admin.posts.store') }}" method="POST">
+        <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
 
             <div class="mb-3">
                 <label class="label-control" for="title">Titolo</label>
-                <input type="text" id="title" name="title"  class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
+                <input type="text" id="title" name="title"
+                value="{{ old('title') }}"
+                class="form-control @error('title') is-invalid @enderror">
+                {{-- @error ==> controlla se fra gli errori esiste quello che ti passo come parametro e passa in $message l'errore --}}
                 @error('title')
-				<p class="text-danger"> {{$message}} </p>
-			    @enderror
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label class="label-control" for="content">Content</label>
-                <textarea type="text" id="content" name="content" class="form-control @error('content') is-invalid @enderror" rows="5">{{ old('content') }}</textarea>
+                <textarea type="text" id="content" name="content"
+                class="form-control @error('content') is-invalid @enderror" rows="5" >{{ old('content') }}</textarea>
                 @error('content')
-				<p class="text-danger"> {{$message}} </p>
-			    @enderror
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-3"> {{-- category --}}
-                <label class="label-control" for="category_id">Category</label>
+            <div class="mb-3">
+                <label class="label-control" for="category_id">Categoria</label>
                 <select class="form-control @error('category_id') is-invalid @enderror"
                 name="category_id" id="category_id">
-                    <option value=""> - select a category - </option>
+                    <option value=""> - selezionare una categoria - </option>
                     @foreach($categories as $category)
                         <option
                         @if(old('category_id') == $category->id)  selected @endif
@@ -50,7 +56,7 @@
                 @enderror
             </div>
 
-            <div class="mb-3"> {{-- tags --}}
+            <div class="mb-3">
                 <h5>Tag</h5>
                 @foreach($tags as $tag)
                     <span class="d-inline-block mr-3">
@@ -64,6 +70,16 @@
                     </span>
                 @endforeach
                 @error('tags')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="label-control" for="cover">Immagine</label>
+                <input type="file" id="cover" name="cover"
+                class="form-control @error('cover') is-invalid @enderror">
+                {{-- @error ==> controlla se fra gli errori esiste quello che ti passo come parametro e passa in $message l'errore --}}
+                @error('cover')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
