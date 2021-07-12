@@ -16,6 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
+        //$posts = Post::all();
+
         $posts = DB::table('posts')
         ->select(
             'posts.id',
@@ -27,9 +29,13 @@ class PostController extends Controller
         ->join('categories','posts.category_id','categories.id')
         ->paginate(3);
 
+        // è possibile fare le jopin in questo modo
+        // con with si passa la proprietà della join prensente nel Model
+        // il risultato sono una serie di elementi annidati
+        //$posts = Post::with(['category','tags'])->paginate(3);
+
         return response()->json($posts);
     }
-
 
     /**
      * Show the form for creating a new resource.

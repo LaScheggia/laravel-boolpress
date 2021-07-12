@@ -22,11 +22,13 @@ Route::prefix('admin')
     ->middleware('auth')
     ->name('admin.')
     ->group(function(){
+        // qui si mettono tutte le rotte admin (il nostro CRUD)
         Route::get('/','HomeController@index')->name('home');
         Route::resource('/posts', 'PostController');
     });
 
 
+    // rotta che serve a vue per gestire tutte le rotte possibili alternative a quelle Auth e admin
 Route::get('{any?}', function(){
 
       return view('guest.home');
